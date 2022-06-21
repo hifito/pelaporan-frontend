@@ -1,38 +1,24 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+* {
+  font-family: 'Inter', sans-serif;
+  /*-webkit-font-smoothing: antialiased;*/
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.ant-table-thead > tr > th {
+    color: #4B4B4B;
+    background: #F4F4F4 !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.ant-select-selector {
+    border-radius: 8px !important;
+    height: 48px !important;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.ant-select-selection-item {
+    margin: auto !important;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.ant-select-selection-placeholder {
+    margin: auto !important;
 }
