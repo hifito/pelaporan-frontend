@@ -10,6 +10,7 @@ import FormPage from "../pages/form/FormPage";
 import LoginPage from "../pages/auth/LoginPage";
 import RegisterPage from "../pages/auth/RegisterPage";
 import AdminDashboardPage from "../pages/admin/dashboard/AdminDashboardPage";
+import FormEdit from "../pages/form/FormEdit";
 
 const RouteIndex = () => {
     function useAuth() {
@@ -45,6 +46,11 @@ const RouteIndex = () => {
                     <Route path="/chats" element={
                         <PrivateRoute>
                             <Layout content={<h1>Ini chat</h1>}/>
+                        </PrivateRoute>
+                    }/>
+                    <Route path="/edit/:reportId" element={
+                        <PrivateRoute>
+                            <Layout content={<FormEdit/>}/>
                         </PrivateRoute>
                     }/>
                 </Routes>

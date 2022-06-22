@@ -1,9 +1,12 @@
-import {Space, Table, Tag} from "antd";
+import {Space, Table, Tag, Button, Tooltip} from "antd";
 import Card from "antd/es/card/Card";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
+import * as React from 'react';
+import { DislikeOutlined, LikeOutlined } from '@ant-design/icons';
+import moment from "moment";
 
 const ReportTable = () => {
     const navigate = useNavigate()
@@ -19,9 +22,9 @@ const ReportTable = () => {
             `http://127.0.0.1:8000/api/laporan/`,
             { headers: { "Authorization": "Bearer " + Cookies.get('token') }})
         let data = result.data.data.laporans
-        console.log(data)
         setDataReport(data)
     }
+
 
     const getCategory = async (id) => {
         if(id !== 0) {
@@ -61,6 +64,18 @@ const ReportTable = () => {
                     )
                 }
             },
+            filters: [
+                {
+                  text: 'Kemahasiswaan',
+                  value: 1,
+                },
+                {
+                  text: 'Sarana Prasarana',
+                  value: 2,
+                },
+              ],
+              onFilter: (value, record) => console.log(record.status.startsWith('Selesai') == true),
+            
         },
         {
             title: 'Pelaporan',
@@ -71,15 +86,23 @@ const ReportTable = () => {
             title: 'Action',
             key: 'action',
             render: (_, record) => (
-                <Space size="middle">
-                    <a style={{color: "#8146FF"}}>Lihat Detail</a>
-                </Space>
+                <div style={{display: 'flex'}}>
+                    <Tooltip title="search">
+      <Button type="primary" shape="circle" icon={<LikeOutlined></LikeOutlined>} />
+    </Tooltip>
+    <Tooltip title="search" style={{marginLeft:10}}>
+      <Button type="secondary" shape="circle" icon={<DislikeOutlined />} />
+    </Tooltip>    
+                </div>      
             ),
         },
         {
             title: 'Date Created',
             dataIndex: 'created_at',
             key: 'created_at',
+            render: (created_at) => (
+                moment(created_at).format("DD-MM-YYYY")
+            )
         },
         {
             title: 'Status',
@@ -99,6 +122,7 @@ const ReportTable = () => {
 
     const data = dataReport
 
+
     // const data = [
     //     {
     //         category: 'Sarana dan Prasarana',
@@ -107,6 +131,10 @@ const ReportTable = () => {
     //         status: 'Inactive',
     //     },
     // ];
+
+    const onChange = (pagination, filters, sorter, extra) => {
+        console.log('params', pagination, filters, sorter, extra);
+      };
 
     return (
         <>
@@ -121,8 +149,11 @@ const ReportTable = () => {
                        style={{
                            borderRadius: 14, overflow: "hidden",
                            cursor: "pointer",
-                       }}/>
+                       }}
+                       onChange={onChange}
+                       />
             </Card>
+            
 
         </>
     )

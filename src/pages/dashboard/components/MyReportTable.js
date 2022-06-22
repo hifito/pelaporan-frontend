@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
+import moment from "moment";
 
 const ReportTable = () => {
     const navigate = useNavigate()
@@ -20,9 +21,8 @@ const ReportTable = () => {
             { headers: { "Authorization": "Bearer " + Cookies.get('token') }})
         let data = result.data.data.laporans
         const filtered = data.filter(item => {
-            return item.users_id === 14;
+            return item.users_id == Cookies.get('id');
         });
-        console.log("array baru", filtered)
         setMyDataReport(filtered)
     }
 
@@ -38,6 +38,10 @@ const ReportTable = () => {
         } catch (e) {
             console.log('ERROR')
         }
+    }
+
+    const handleEdit = (id) => {
+        navigate(`/edit/${id.id}`)
     }
 
     const columns = [
@@ -91,6 +95,9 @@ const ReportTable = () => {
             title: 'Date Created',
             dataIndex: 'created_at',
             key: 'created_at',
+            render: (created_at) => (
+                moment(created_at).format("DD-MM-YYYY")
+            )
         },
         {
             title: 'Status',
@@ -112,7 +119,11 @@ const ReportTable = () => {
             render: (id) => (
                 <>
                     <Space size={16}>
-                        <Button type="primary" style={{borderRadius: 4}}>
+                        <Button type="primary" style={{borderRadius: 4}}
+                        onClick = {(() => {
+                            handleEdit(id)
+                        })}
+                        >
                             Edit
                         </Button>
                         <Button type="danger" style={{borderRadius: 4}} onClick={(() => {
