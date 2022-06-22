@@ -5,20 +5,29 @@ import Logo from "../../assets/media/image/Logo.png";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie"
+import {useState} from "react";
 
 const {Text} = Typography;
 
 const LoginPage = () => {
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
     const inOneHours = new Date(new Date().getTime() + 60 * 60 * 1000);
 
-    const onFinish = (values) => {
-        axios.post(`http://127.0.0.1:8000/api/auth/login`, values).then((res) => {
+    const onFinish = async (values) => {
+        setLoading(true)
+        await axios.post(`http://127.0.0.1:8000/api/auth/login`, values).then((res) => {
             let token = res.data.data.token
-            console.log(res)
+            let id = res.data.data.user_id
+            console.log(token)
 
             Cookies.set('token', token, {expires: inOneHours})
-            navigate(`/`)
+            Cookies.set('id', id, {expires: inOneHours})
+            if(id === 1) {
+                navigate('/admin')
+            } else {
+                navigate(`/`)
+            }
         })
     };
 
@@ -75,7 +84,7 @@ const LoginPage = () => {
 
                                 <Form.Item
                                 >
-                                    <Button type="primary" htmlType="submit" style={{
+                                    <Button type="primary" htmlType="submit" loading={loading} style={{
                                         width: "100%",
                                         height: 60,
                                         borderRadius: 7,

@@ -9,6 +9,7 @@ import Layout from "../layout/Layout";
 import FormPage from "../pages/form/FormPage";
 import LoginPage from "../pages/auth/LoginPage";
 import RegisterPage from "../pages/auth/RegisterPage";
+import AdminDashboardPage from "../pages/admin/dashboard/AdminDashboardPage";
 
 const RouteIndex = () => {
     function useAuth() {
@@ -29,6 +30,11 @@ const RouteIndex = () => {
                     <Route path="/" element={
                         <PrivateRoute>
                             <Layout content={<DashboardPage/>}/>
+                        </PrivateRoute>
+                    }/>
+                    <Route path="/admin" element={
+                        <PrivateRoute>
+                            <Layout content={<AdminDashboardPage/>}/>
                         </PrivateRoute>
                     }/>
                     <Route path="/form" element={
